@@ -1,3 +1,8 @@
+set -e
+set -x
+
+lein do clean, uberjar
+
 native-image --report-unsupported-elements-at-runtime \
              --initialize-at-build-time \
              --no-server \
