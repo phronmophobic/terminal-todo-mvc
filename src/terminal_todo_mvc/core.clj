@@ -4,9 +4,10 @@
              [horizontal-layout
               vertical-layout
               on]]
-            ;; need effects
+
             [membrane.lanterna
              :refer [textarea checkbox label button]]
+            ;; need effects
             [membrane.basic-components :as basic]
             [membrane.component :as component
              :refer [defui run-ui run-ui-sync defeffect]])
@@ -143,13 +144,7 @@
                        :next-todo-text ""}))
 
 (defn -main [& args]
-
-  ;; (component/run-ui-sync #'term-test {:num 0 :s "hh"})
-  (component/run-ui-sync #'todo-app
-                         todo-state
-                         (let [default (component/default-handler todo-state)]
-                           (fn [& effect]
-                             (apply default effect))))
+  (component/run-ui-sync #'todo-app todo-state)
   ;; (.close System/in)
   ;; (shutdown-agents)
   )
