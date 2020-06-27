@@ -7,8 +7,6 @@
 
             [membrane.lanterna
              :refer [textarea checkbox label button]]
-            ;; need effects
-            [membrane.basic-components :as basic]
             [membrane.component :as component
              :refer [defui run-ui run-ui-sync defeffect]])
   (:gen-class))
