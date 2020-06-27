@@ -2,6 +2,10 @@
 
 An example project using [membrane's](https://github.com/phronmophobic/membrane) terminal backend to create a terminal app and compiling it using GraalVM.
 
+## Screenshots
+
+![terminal todo example](terminal-todo-mvc.gif?raw=true)
+
 ## Usage
 
 1. Follow the instructions for installing GraalVM. https://github.com/lread/clj-graal-docs/blob/master/doc/hello-world.md
