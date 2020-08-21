@@ -6,9 +6,10 @@
               on]]
 
             [membrane.lanterna
-             :refer [textarea checkbox label button]]
+             :refer [textarea checkbox label button]
+             :as lanterna]
             [membrane.component :as component
-             :refer [defui run-ui run-ui-sync defeffect]])
+             :refer [defui defeffect]])
   (:gen-class))
 
 ;;; todo app
@@ -142,7 +143,8 @@
                        :next-todo-text ""}))
 
 (defn -main [& args]
-  (component/run-ui-sync #'todo-app todo-state)
+  (lanterna/run-sync (component/make-app #'todo-app todo-state))
+  ;; (component/run-ui-sync )
   ;; (.close System/in)
   ;; (shutdown-agents)
   )
