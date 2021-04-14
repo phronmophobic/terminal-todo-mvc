@@ -13,7 +13,7 @@
   (:gen-class))
 
 ;;; todo app
-(defui todo-item [ & {:keys [todo]}]
+(defui todo-item [{:keys [todo]}]
   (horizontal-layout
    (on
     :mouse-down
@@ -21,13 +21,13 @@
       [[:delete $todo]])
     (ui/with-color [1 0 0]
       (label "X")))
-   (checkbox :checked? (:complete? todo))
+   (checkbox {:checked? (:complete? todo)})
    (ui/wrap-on
     :key-press
     (fn [default-handler s]
       (when (not= s :enter)
         (default-handler s)))
-    (textarea :text (:description todo)))))
+    (textarea {:text (:description todo)}))))
 
 (comment
   (run-ui #'todo-item {:todo
@@ -35,11 +35,11 @@
                         :description "fix me"}}))
 
 
-(defui todo-list [ & {:keys [todos]}]
+(defui todo-list [{:keys [todos]}]
   (apply
    vertical-layout
    (for [todo todos]
-     (todo-item :todo todo))))
+     (todo-item {:todo todo}))))
 
 
 
@@ -61,7 +61,7 @@
 
 ;; Create a toggle that allows the user
 ;; to toggle between options
-(defui toggle [& {:keys [options selected]}]
+(defui toggle [{:keys [options selected]}]
   (apply
    horizontal-layout
    (for [option options]
@@ -79,7 +79,7 @@
           {:options [:all :active :complete?]
            :selected nil}))
 
-(defui todo-app [ & {:keys [todos next-todo-text selected-filter]
+(defui todo-app [{:keys [todos next-todo-text selected-filter]
                      :or {selected-filter :all}}]
   (vertical-layout
    (horizontal-layout
@@ -96,11 +96,12 @@
            [[::add-todo $todos next-todo-text]
             [:set $next-todo-text ""]]
            effects)))
-     (textarea :text next-todo-text)))
-   (toggle :selected selected-filter :options [:all :active :complete?])
+     (textarea {:text next-todo-text})))
+   (toggle {:selected selected-filter
+            :options [:all :active :complete?]})
    (let [filter-fn (get filter-fns selected-filter :all)
          visible-todos (filter filter-fn todos)]
-     (todo-list :todos visible-todos))))
+     (todo-list {:todos visible-todos}))))
 
 
 (def todo-state (atom {:todos
