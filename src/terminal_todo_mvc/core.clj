@@ -4,9 +4,10 @@
              [horizontal-layout
               vertical-layout
               on]]
+            [clojure.core.async :as async]
 
             [membrane.lanterna
-             :refer [textarea checkbox label button]
+             :refer [textarea checkbox label button rectangle]
              :as lanterna]
             [membrane.component :as component
              :refer [defui defeffect]])
@@ -142,6 +143,27 @@
                         {:complete? true
                          :description "third"}]
                        :next-todo-text ""}))
+
+
+(defn bordered-box [title body]
+  (let [body (ui/padding 1 1
+                         body)
+        [w h] (ui/bounds body)
+        w (max (+ 2 (count title))
+               w)]
+    [(rectangle (inc w) (inc h))
+     (ui/translate 2 0 (label title))
+     body]))
+
+(comment
+  (do
+    (def close-ch (async/chan))
+    (lanterna/run (component/make-app #'todo-app todo-state)
+      {:in membrane.lanterna/in
+       :out membrane.lanterna/out
+       :close-ch close-ch
+       }))
+  ,)
 
 (defn -main [& args]
   (lanterna/run-sync (component/make-app #'todo-app todo-state))
