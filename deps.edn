@@ -1,6 +1,8 @@
 {:paths ["src" "resources"]
  :deps {
         org.clojure/clojure {:mvn/version "1.10.2-alpha1"}
-        com.phronemophobic/membrane {:mvn/version "0.9.27-beta"}
+        com.phronemophobic/membrane {:mvn/version "0.9.27.2-beta"
+                                     ;;:local/root "../membrane/"
+                                     }
         com.googlecode.lanterna/lanterna {:mvn/version "3.1.1"}
         }}
