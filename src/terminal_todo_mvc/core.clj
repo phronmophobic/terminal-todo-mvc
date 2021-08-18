@@ -80,29 +80,34 @@
           {:options [:all :active :complete?]
            :selected nil}))
 
-(defui todo-app [{:keys [todos next-todo-text selected-filter]
-                     :or {selected-filter :all}}]
-  (vertical-layout
-   (horizontal-layout
-    (button "Add Todo"
-            (fn []
-              [[::add-todo $todos next-todo-text]
-               [:set $next-todo-text ""]]))
-    (ui/wrap-on
-     :key-press
-     (fn [default-handler s]
-       (let [effects (default-handler s)]
-         (if (and (seq effects)
-                  (= s :enter))
-           [[::add-todo $todos next-todo-text]
-            [:set $next-todo-text ""]]
-           effects)))
-     (textarea {:text next-todo-text})))
-   (toggle {:selected selected-filter
-            :options [:all :active :complete?]})
-   (let [filter-fn (get filter-fns selected-filter :all)
-         visible-todos (filter filter-fn todos)]
-     (todo-list {:todos visible-todos}))))
+(defui todo-app [{:keys [todos next-todo-text selected-filter size]
+                  :or {selected-filter :all}}]
+  (on
+   :terminal-resized
+   (fn [new-size]
+     [[:set $size new-size]])
+   (vertical-layout
+    (label (str "size: "size))
+    (horizontal-layout
+     (button "Add Todo"
+             (fn []
+               [[::add-todo $todos next-todo-text]
+                [:set $next-todo-text ""]]))
+     (ui/wrap-on
+      :key-press
+      (fn [default-handler s]
+        (let [effects (default-handler s)]
+          (if (and (seq effects)
+                   (= s :enter))
+            [[::add-todo $todos next-todo-text]
+             [:set $next-todo-text ""]]
+            effects)))
+      (textarea {:text next-todo-text})))
+    (toggle {:selected selected-filter
+             :options [:all :active :complete?]})
+    (let [filter-fn (get filter-fns selected-filter :all)
+          visible-todos (filter filter-fn todos)]
+      (todo-list {:todos visible-todos})))))
 
 
 (def todo-state (atom {:todos
