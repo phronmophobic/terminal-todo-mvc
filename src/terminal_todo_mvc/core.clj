@@ -163,6 +163,8 @@
        :out membrane.lanterna/out
        :close-ch close-ch
        }))
+
+  (async/close! close-ch)
   ,)
 
 (defn -main [& args]
